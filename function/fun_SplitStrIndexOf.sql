@@ -9,7 +9,7 @@ AS
         if not found result ''
 */
 BEGIN
-    Declare @curIndex int,@resultStr varchar(1000)
+    Declare @curIndex int,@resultStr nvarchar(1000)
     set @resultStr = ''
     set @curIndex = 0
     if charindex(@DivStr,@OrgStr) = 0
