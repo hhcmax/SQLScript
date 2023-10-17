@@ -8,7 +8,9 @@ AS
 */
 BEGIN
     Declare @resultCount int
-    Set @resultCount = (LEN(@OrgStr) - LEN(REPLACE(@OrgStr,@DivStr,''))) / LEN(@DivStr) + 1
+    Set @resultCount = (LEN(@OrgStr) - LEN(REPLACE(@OrgStr,@DivStr,''))) / LEN(@DivStr)
+    IF @resultCount = 0
+        Set @resultCount = @resultCount + 1
     IF (@OrgStr like '%' + @DivStr)
         Set @resultCount = @resultCount - 1
     return @resultCount

@@ -9,21 +9,28 @@ AS
         if not found result ''
 */
 BEGIN
-    Declare @curIndex int,@resultStr nvarchar(1000)
+    Declare @curIndex int,@resultStr varchar(1000)
     set @resultStr = ''
     set @curIndex = 0
-    While charindex(@DivStr,@OrgStr) > 0    
+    if charindex(@DivStr,@OrgStr) = 0
+        Set @resultStr = ''
+    Else
     begin
-        if (@curIndex = @Index)
+        While charindex(@DivStr,@OrgStr) > 0    
         begin
-            if (charindex(@DivStr,@OrgStr) = 0) AND (@OrgStr <> '')
-                set @resultStr = @OrgStr
-            else
-                set @resultStr = SubString(@OrgStr,1,charindex(@DivStr,@OrgStr) - 1)   
-            break
+            if (@curIndex = @Index)
+            begin
+                if (charindex(@DivStr,@OrgStr) = 0) AND (@OrgStr <> '')
+                    set @resultStr = @OrgStr
+                else
+                    set @resultStr = SubString(@OrgStr,1,charindex(@DivStr,@OrgStr) - 1)   
+                break
+             end
+            Set @OrgStr = SubString(@OrgStr,charindex(@DivStr,@OrgStr) + Len(@DivStr),Len(@OrgStr) - charindex(@DivStr,@OrgStr))      
+            set @curIndex = @curIndex + 1
         end
-        Set @OrgStr = SubString(@OrgStr,charindex(@DivStr,@OrgStr) + Len(@DivStr),Len(@OrgStr) - charindex(@DivStr,@OrgStr))      
-        set @curIndex = @curIndex + 1
+        if @OrgStr <> ''
+            Set @resultStr = @OrgStr
     end
     return @resultStr
 END
